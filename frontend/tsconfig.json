@@ -1,0 +1,27 @@
+{
+  "extends": "../tsconfig.root.json",
+  "compilerOptions": {
+    "jsx": "preserve", // Next.js에서 JSX 처리
+    "incremental": true, // 컴파일 속도 최적화
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "allowJs": true
+  },
+  "include": [
+    "next-env.d.ts", // Next.js에서 필요한 환경 설정
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts" // Next.js 타입 정의 포함
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
