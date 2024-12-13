@@ -1,10 +1,14 @@
 {
   "extends": "../tsconfig.root.json",
   "compilerOptions": {
-    "target": "ES2019", // 백엔드에서 최신 ES2019 기능 사용 가능
+    "module": "ESNext", // ES Modules 사용
     "moduleResolution": "node", // Node.js 환경에 적합한 모듈 해석
+    "target": "ESNext", // 백엔드에서 최신 ES2019 기능 사용 가능
     "outDir": "./dist", // 빌드 결과물 저장 위치
-    "allowJs": true // 필요 시 JS 파일 사용 허용
+    "allowJs": true, // 필요 시 JS 파일 사용 허용
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts"], // 백엔드 소스 파일 경로
   "exclude": ["node_modules", "dist"]

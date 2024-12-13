@@ -4,9 +4,7 @@
     "jsx": "preserve", // Next.js에서 JSX 처리
     "incremental": true, // 컴파일 속도 최적화
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "plugins": [
       {
@@ -21,7 +19,5 @@
     "**/*.tsx",
     ".next/types/**/*.ts" // Next.js 타입 정의 포함
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

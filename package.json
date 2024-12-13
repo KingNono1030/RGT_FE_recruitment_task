@@ -2,20 +2,21 @@
   "name": "project-root",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "devDependencies": {
-    "@typescript-eslint/parser": "^8.18.0",
     "@eslint/eslintrc": "^3.2.0",
-    "@types/node": "^20.17.10",
-    "@types/react": "^19.0.1",
-    "@types/react-dom": "^19.0.2",
-    "concurrently": "^7.6.0",
-    "eslint": "^8.57.1",
-    "prettier": "^2.8.8",
+    "@typescript-eslint/parser": "^8.18.0",
+    "concurrently": "^9.1.0",
+    "eslint": "^9.16.0",
+    "prettier": "^3.4.2",
     "typescript": "^5.7.2"
   },
   "scripts": {
     "dev": "concurrently \"pnpm --filter frontend dev\" \"pnpm --filter backend dev\"",
-    "lint": "eslint . --ext .js,.ts,.tsx",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
