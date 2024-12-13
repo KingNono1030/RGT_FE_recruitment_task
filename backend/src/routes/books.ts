@@ -56,7 +56,11 @@ router.get('/:id', async (req: Request<{ id: string }>, res: Response) => {
 router.post(
   '/',
   async (
-    req: Request<{}, {}, { title: string; author: string }>,
+    req: Request<
+      { id: string },
+      undefined,
+      { title?: string; author?: string }
+    >,
     res: Response
   ) => {
     try {
@@ -77,11 +81,20 @@ router.post(
 router.put(
   '/:id',
   async (
-    req: Request<{ id: string }, {}, { title?: string; author?: string }>,
+    req: Request<
+      { id: string },
+      undefined,
+      { title?: string; author?: string }
+    >,
     res: Response
   ) => {
     try {
-      const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
+      const { title, author } = req.body
+      const updateData: { title?: string; author?: string } = {}
+      if (title) updateData.title = title
+      if (author) updateData.author = author
+
+      const book = await Book.findByIdAndUpdate(req.params.id, updateData, {
         new: true,
       })
       if (!book) {
