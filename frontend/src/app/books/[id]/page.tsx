@@ -17,35 +17,38 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
   const book: BookListItem = data
 
   return (
-    <div className='flex flex-col md:flex-row gap-4 xl:gap-4 p-4 md:p-6'>
-      <div className='w-full min-h-20 md:w-[340px] md:h-[340px] xl:w-[486px] xl:h-[486px] rounded-xl md:rounded-2xl bg-slate-300'>
-        이미지
-      </div>
-      <div className='flex-grow'>
-        <div className='pb-4 border-solid border-b-2 border-gray-800 mb-6 flex justify-between'>
-          <div>
-            <h1 className='text-2xl mb-4 font-semibold'>{book.title}</h1>
-            <h2 className='text-4xl font-semibold'>{book.author}</h2>
-          </div>
-          <div className='flex gap-2'>
-            <Link href={`/books/${id}/edit`}>
-              <Button variant={'secondary'}>수정</Button>
-            </Link>
-            <DeleteBookButton id={id} />
-          </div>
+    <div className='xl:gap-4 p-4 md:p-6'>
+      <h2 className='text-xl font-bold mb-4'>책 상세보기</h2>
+      <div className='flex flex-col md:flex-row gap-4 '>
+        <div className='w-full min-h-20 md:w-[340px] md:h-[340px] xl:w-[486px] xl:h-[486px] rounded-xl md:rounded-2xl bg-slate-300'>
+          이미지
         </div>
-        <div>
-          <div className='mb-2'>
-            <h3 className='font-semibold'>책 소개</h3>
-            <p>{book.summary}</p>
-          </div>
-          <div className='mb-2'>
-            <h3 className='font-semibold'>장르</h3>
-            <p>{book.genre}</p>
+        <div className='flex-grow'>
+          <div className='pb-4 border-solid border-b-2 border-gray-800 mb-6 flex justify-between'>
+            <div>
+              <h1 className='text-2xl mb-4 font-semibold'>{book.title}</h1>
+              <h2 className='text-4xl font-semibold'>{book.author}</h2>
+            </div>
+            <div className='flex gap-2'>
+              <Link href={`/books/${id}/edit`}>
+                <Button variant={'secondary'}>수정</Button>
+              </Link>
+              <DeleteBookButton id={id} />
+            </div>
           </div>
           <div>
-            <h3 className='font-semibold'>발행일</h3>
-            <p>{formatDate(book.publishedDate)}</p>
+            <div className='mb-2'>
+              <h3 className='font-semibold'>장르</h3>
+              <p>{book.genre}</p>
+            </div>
+            <div className='mb-2'>
+              <h3 className='font-semibold'>발행일</h3>
+              <p>{formatDate(book.publishedDate)}</p>
+            </div>
+            <div>
+              <h3 className='font-semibold'>줄거리</h3>
+              <p>{book.summary}</p>
+            </div>
           </div>
         </div>
       </div>

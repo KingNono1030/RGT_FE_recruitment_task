@@ -14,7 +14,7 @@ export default async function EditBookPage({ params }: BookDetailPageProps) {
 
   return (
     <div>
-      <h1>책 편집</h1>
+      <h1 className='text-xl font-bold mb-4'>책 편집하기</h1>
       <EditBookForm initialValues={book} />
     </div>
   )
