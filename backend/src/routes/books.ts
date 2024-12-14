@@ -23,13 +23,16 @@ const router = Router()
  */
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const { page = 1, limit = 10 } = req.query
+    const { page = 1, limit = 10, sort = 'desc' } = req.query
 
     const pageNumber = parseInt(page as string, 10)
     const limitNumber = parseInt(limit as string, 10)
     const skip = (pageNumber - 1) * limitNumber
 
-    const books = await Book.find().skip(skip).limit(limitNumber)
+    const books = await Book.find()
+      .sort({ createdAt: sort === 'asc' ? 1 : -1 })
+      .skip(skip)
+      .limit(limitNumber)
 
     const totalBooks = await Book.countDocuments()
 
