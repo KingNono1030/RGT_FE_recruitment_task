@@ -21,10 +21,34 @@ const router = Router()
  * @desc 모든 책 조회
  * @access Public
  */
-router.get('/', async (_, res) => {
+router.get('/', async (req: Request, res: Response) => {
   try {
-    const books = await Book.find()
-    res.status(200).json(books)
+    const { page = 1, limit = 10, sort = 'desc', search = '' } = req.query
+
+    const pageNumber = parseInt(page as string, 10)
+    const limitNumber = parseInt(limit as string, 10)
+    const skip = (pageNumber - 1) * limitNumber
+    const decodedSearch = decodeURIComponent(search as string)
+
+    const searchQuery =
+      decodedSearch && decodedSearch !== ''
+        ? { $text: { $search: decodedSearch } }
+        : {}
+
+    const books = await Book.find(searchQuery)
+
+      .sort({ createdAt: sort === 'asc' ? 1 : -1 })
+      .skip(skip)
+      .limit(limitNumber)
+
+    const totalBooks = await Book.countDocuments(searchQuery)
+
+    res.status(200).json({
+      books,
+      totalBooks,
+      totalPages: Math.ceil(totalBooks / limitNumber),
+      currentPage: pageNumber,
+    })
   } catch (error) {
     handleError(res, error)
   }
