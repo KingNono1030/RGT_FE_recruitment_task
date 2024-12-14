@@ -23,18 +23,25 @@ const router = Router()
  */
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const { page = 1, limit = 10, sort = 'desc' } = req.query
+    const { page = 1, limit = 10, sort = 'desc', search = '' } = req.query
 
     const pageNumber = parseInt(page as string, 10)
     const limitNumber = parseInt(limit as string, 10)
     const skip = (pageNumber - 1) * limitNumber
+    const decodedSearch = decodeURIComponent(search as string)
 
-    const books = await Book.find()
+    const searchQuery =
+      decodedSearch && decodedSearch !== ''
+        ? { $text: { $search: decodedSearch } }
+        : {}
+
+    const books = await Book.find(searchQuery)
+
       .sort({ createdAt: sort === 'asc' ? 1 : -1 })
       .skip(skip)
       .limit(limitNumber)
 
-    const totalBooks = await Book.countDocuments()
+    const totalBooks = await Book.countDocuments(searchQuery)
 
     res.status(200).json({
       books,

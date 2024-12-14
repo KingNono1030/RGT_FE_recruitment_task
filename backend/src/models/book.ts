@@ -19,8 +19,7 @@ const BookSchema: Schema = new Schema(
   { timestamps: true }
 )
 
-BookSchema.index({ title: 1 })
-BookSchema.index({ author: 1 })
+BookSchema.index({ title: 'text', author: 'text', genre: 'text' })
 
 BookSchema.path('title').validate((title: string) => {
   return title.length >= 1 && title.length <= 200
