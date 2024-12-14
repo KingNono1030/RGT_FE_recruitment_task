@@ -21,10 +21,24 @@ const router = Router()
  * @desc 모든 책 조회
  * @access Public
  */
-router.get('/', async (_, res) => {
+router.get('/', async (req: Request, res: Response) => {
   try {
-    const books = await Book.find()
-    res.status(200).json(books)
+    const { page = 1, limit = 10 } = req.query
+
+    const pageNumber = parseInt(page as string, 10)
+    const limitNumber = parseInt(limit as string, 10)
+    const skip = (pageNumber - 1) * limitNumber
+
+    const books = await Book.find().skip(skip).limit(limitNumber)
+
+    const totalBooks = await Book.countDocuments()
+
+    res.status(200).json({
+      books,
+      totalBooks,
+      totalPages: Math.ceil(totalBooks / limitNumber),
+      currentPage: pageNumber,
+    })
   } catch (error) {
     handleError(res, error)
   }
