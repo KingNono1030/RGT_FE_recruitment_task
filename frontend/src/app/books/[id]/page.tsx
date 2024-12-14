@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { formatDate } from '@/lib/utils'
 import { getBookById } from '@/services/bookServices'
 import type { BookListItem } from '@/types/Book.types'
+import Image from 'next/image'
 import Link from 'next/link'
 
 interface BookDetailPageProps {
@@ -20,8 +21,8 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
     <div className='xl:gap-4 p-4 md:p-6'>
       <h2 className='text-xl font-bold mb-4'>책 상세보기</h2>
       <div className='flex flex-col md:flex-row gap-4 '>
-        <div className='w-full min-h-20 md:w-[340px] md:h-[340px] xl:w-[486px] xl:h-[486px] rounded-xl md:rounded-2xl bg-slate-300'>
-          이미지
+        <div className='w-full relative min-h-20 md:w-[340px] md:h-[340px] xl:w-[486px] xl:h-[486px] rounded-xl md:rounded-2xl overflow-hidden'>
+          <Image src={'https://picsum.photos/600'} fill alt='책 임시 이미지' />
         </div>
         <div className='flex-grow'>
           <div className='pb-4 border-solid border-b-2 border-gray-800 mb-6 flex justify-between'>
