@@ -1,3 +1,4 @@
+import { DeleteBookButton } from '@/components/book/DeleteBookButton'
 import { Button } from '@/components/ui/button'
 import { formatDate } from '@/lib/utils'
 import { getBookById } from '@/services/bookServices'
@@ -14,6 +15,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
   const { id } = await params
   const data = await getBookById(id)
   const book: BookListItem = data
+
   return (
     <div className='flex flex-col md:flex-row gap-4 xl:gap-4 p-4 md:p-6'>
       <div className='w-full min-h-20 md:w-[340px] md:h-[340px] xl:w-[486px] xl:h-[486px] rounded-xl md:rounded-2xl bg-slate-300'>
@@ -29,7 +31,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
             <Link href={`/books/${id}/edit`}>
               <Button variant={'secondary'}>수정</Button>
             </Link>
-            <Button variant={'destructive'}>삭제</Button>
+            <DeleteBookButton id={id} />
           </div>
         </div>
         <div>
