@@ -9,7 +9,7 @@ export default async function EditBookPage({ params }: BookDetailPageProps) {
 
   return (
     <div>
-      <h1>책 상세</h1>
+      <h1>책 편집</h1>
       <p>Book ID: {id}</p>
     </div>
   )

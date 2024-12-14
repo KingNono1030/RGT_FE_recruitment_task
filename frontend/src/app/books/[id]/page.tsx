@@ -1,5 +1,7 @@
+import { formatDate } from '@/lib/utils'
 import { getBookById } from '@/services/bookServices'
 import type { BookListItem } from '@/types/Book.types'
+
 interface BookDetailPageProps {
   params: {
     id: string
@@ -31,7 +33,7 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
           </div>
           <div>
             <h3 className='font-semibold'>발행일</h3>
-            <p>{book.publishedDate}</p>
+            <p>{formatDate(book.publishedDate)}</p>
           </div>
         </div>
       </div>

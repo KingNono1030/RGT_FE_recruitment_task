@@ -8,13 +8,14 @@ import {
 import { Button } from '@/components/ui/button'
 import type { BookListItem } from '@/types/Book.types'
 import Link from 'next/link'
+import { formatDate } from '@/lib/utils'
 
 export function BookCard({
   _id,
   title,
   author,
   publishedDate,
-  summary,
+  genre,
 }: BookListItem) {
   return (
     <Card className='w-full'>
@@ -22,9 +23,9 @@ export function BookCard({
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p>{`저자: ${author}`}</p>
-        <p className='font-bold'>{`발행일: ${publishedDate}`}</p>
-        <p>{summary}</p>
+        <p className='font-bold'>{`저자: ${author}`}</p>
+        <p className='font-bold'>{`장르: ${genre}`}</p>
+        <p>{`발행일: ${formatDate(publishedDate)}`}</p>
       </CardContent>
       <CardFooter>
         <Link href={`/books/${_id}`}>
