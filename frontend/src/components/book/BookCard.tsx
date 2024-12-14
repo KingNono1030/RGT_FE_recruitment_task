@@ -6,11 +6,18 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import type { Book } from '@/types/Book.types'
+import type { BookListItem } from '@/types/Book.types'
+import Link from 'next/link'
 
-export function BookCard({ title, author, publishedDate, summary }: Book) {
+export function BookCard({
+  _id,
+  title,
+  author,
+  publishedDate,
+  summary,
+}: BookListItem) {
   return (
-    <Card className='w-64'>
+    <Card className='w-full'>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
@@ -20,7 +27,9 @@ export function BookCard({ title, author, publishedDate, summary }: Book) {
         <p>{summary}</p>
       </CardContent>
       <CardFooter>
-        <Button className='w-full'>책 상세 보기</Button>
+        <Link href={`/books/${_id}`}>
+          <Button className='w-full'>책 상세 보기</Button>
+        </Link>
       </CardFooter>
     </Card>
   )
