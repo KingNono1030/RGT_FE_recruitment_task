@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { createBook } from '@/services/bookServices'
+import { useRouter } from 'next/navigation'
 
 const addBookSchema = z.object({
   title: z.string().min(1, '책 제목을 입력해주세요'),
@@ -45,6 +46,7 @@ const addBookSchema = z.object({
 })
 
 export const AddBookForm = () => {
+  const router = useRouter()
   const form = useForm<z.infer<typeof addBookSchema>>({
     resolver: zodResolver(addBookSchema),
     defaultValues: {
@@ -57,11 +59,16 @@ export const AddBookForm = () => {
 
   const onSubmit = async (values: z.infer<typeof addBookSchema>) => {
     const publishedDateStr = values.publishedDate.toString()
-    const data = await createBook({
-      ...values,
-      publishedDate: publishedDateStr,
-    })
-    console.log(data)
+    try {
+      const data = await createBook({
+        ...values,
+        publishedDate: publishedDateStr,
+      })
+      const id = data['_id']
+      router.push(`/books/${id}`)
+    } catch (error) {
+      console.error(error)
+    }
   }
   return (
     <Form {...form}>
