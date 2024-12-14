@@ -1,6 +1,8 @@
+import { Button } from '@/components/ui/button'
 import { formatDate } from '@/lib/utils'
 import { getBookById } from '@/services/bookServices'
 import type { BookListItem } from '@/types/Book.types'
+import Link from 'next/link'
 
 interface BookDetailPageProps {
   params: {
@@ -18,9 +20,17 @@ export default async function BookDetailPage({ params }: BookDetailPageProps) {
         이미지
       </div>
       <div className='flex-grow'>
-        <div className='pb-4 border-solid border-b-2 border-gray-800 mb-6'>
-          <h1 className='text-2xl mb-4 font-semibold'>{book.title}</h1>
-          <h2 className='text-4xl font-semibold'>{book.author}</h2>
+        <div className='pb-4 border-solid border-b-2 border-gray-800 mb-6 flex justify-between'>
+          <div>
+            <h1 className='text-2xl mb-4 font-semibold'>{book.title}</h1>
+            <h2 className='text-4xl font-semibold'>{book.author}</h2>
+          </div>
+          <div className='flex gap-2'>
+            <Link href={`/books/${id}/edit`}>
+              <Button variant={'secondary'}>수정</Button>
+            </Link>
+            <Button variant={'destructive'}>삭제</Button>
+          </div>
         </div>
         <div>
           <div className='mb-2'>
