@@ -30,7 +30,7 @@ export default function RootLayout({
       >
         <div>
           <Header />
-          <main className='p-8'>{children}</main>
+          <main className='p-8 max-w-[1200px] mx-auto'>{children}</main>
         </div>
       </body>
     </html>
