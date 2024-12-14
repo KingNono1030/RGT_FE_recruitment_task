@@ -25,11 +25,13 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
 
+const PAGES_BY_GROUP = 5
+const LIMIT_BY_PAGE = 6
+
 export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
   const [books, setBooks] = useState<BookListItem[]>(initialBooks)
   const [page, setPage] = useState<number>(1)
   const [totalPages, setTotalPages] = useState<number>(1)
-  const [limit, setLimit] = useState<number>(6)
   const [order, setOrder] = useState<'desc' | 'asc'>('desc')
   const [keyword, setKeyword] = useState('')
   const [pageGroup, setPageGroup] = useState<number[]>([1, 2, 3, 4, 5])
@@ -39,7 +41,7 @@ export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
     const fetchData = async () => {
       const data = await getBooks({
         page,
-        limit,
+        limit: LIMIT_BY_PAGE,
         sort: order,
         search: keyword,
       })
@@ -48,7 +50,7 @@ export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
       setTotalPages(() => data.totalPages)
     }
     fetchData()
-  }, [page, limit, order, keyword])
+  }, [page, order, keyword])
 
   return (
     <section>
@@ -85,7 +87,7 @@ export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
           </label>
         </form>
       </div>
-      <div className='mb-6 flex justify-end items-center'>
+      <div className='mb-6 flex justify-end items-center gap-2'>
         <DropdownMenu>
           <DropdownMenuTrigger className='border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0'>
             정렬
@@ -128,9 +130,14 @@ export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => {
-                  if (pageGroup[0] > 5) {
-                    setPageGroup((prev) => prev.map((i) => i - 5))
-                    setPage((prev) => (Math.ceil(prev / 5) - 1) * 5 - 4)
+                  if (pageGroup[0] > PAGES_BY_GROUP) {
+                    setPageGroup((prev) => prev.map((i) => i - PAGES_BY_GROUP))
+                    setPage(
+                      (prev) =>
+                        (Math.ceil(prev / PAGES_BY_GROUP) - 2) *
+                          PAGES_BY_GROUP +
+                        1
+                    )
                   }
                 }}
                 className='cursor-pointer'
@@ -159,8 +166,11 @@ export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
               <PaginationNext
                 onClick={() => {
                   if (totalPages > pageGroup[pageGroup.length - 1]) {
-                    setPageGroup((prev) => prev.map((i) => i + 5))
-                    setPage((prev) => (Math.ceil(prev / 5) + 1) * 5 - 4)
+                    setPageGroup((prev) => prev.map((i) => i + PAGES_BY_GROUP))
+                    setPage(
+                      (prev) =>
+                        Math.ceil(prev / PAGES_BY_GROUP) * PAGES_BY_GROUP + 1
+                    )
                   }
                 }}
                 className='cursor-pointer'
