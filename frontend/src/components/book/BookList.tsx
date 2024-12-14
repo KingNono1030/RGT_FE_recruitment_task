@@ -1,4 +1,12 @@
 'use client'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 import {
   Pagination,
@@ -40,7 +48,7 @@ export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
 
   return (
     <section>
-      <div className='mb-6'>
+      <div className='mb-2'>
         <form
           onSubmit={(e) => {
             e.preventDefault()
@@ -72,6 +80,30 @@ export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
             </div>
           </label>
         </form>
+      </div>
+      <div className='mb-6 flex justify-end items-center'>
+        <DropdownMenu>
+          <DropdownMenuTrigger className='border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0'>
+            정렬
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              onClick={() => {
+                setOrder(() => 'desc')
+              }}
+            >
+              최신순
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                setOrder(() => 'asc')
+              }}
+            >
+              오래된순
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-6'>
         {books.map((book) => (
