@@ -23,13 +23,16 @@ import { useEffect, useRef, useState } from 'react'
 import { getBooks } from '@/services/bookServices'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import { cn } from '@/lib/utils'
 
 export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
   const [books, setBooks] = useState<BookListItem[]>(initialBooks)
   const [page, setPage] = useState<number>(1)
+  const [totalPages, setTotalPages] = useState<number>(1)
   const [limit, setLimit] = useState<number>(6)
   const [order, setOrder] = useState<'desc' | 'asc'>('desc')
   const [keyword, setKeyword] = useState('')
+  const [pageGroup, setPageGroup] = useState<number[]>([1, 2, 3, 4, 5])
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -42,6 +45,7 @@ export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
       })
       const newBooks: BookListItem[] = data.books
       setBooks(() => newBooks)
+      setTotalPages(() => data.totalPages)
     }
     fetchData()
   }, [page, limit, order, keyword])
@@ -122,25 +126,45 @@ export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious href='#' />
+              <PaginationPrevious
+                onClick={() => {
+                  if (pageGroup[0] > 5) {
+                    setPageGroup((prev) => prev.map((i) => i - 5))
+                    setPage((prev) => (Math.ceil(prev / 5) - 1) * 5 - 4)
+                  }
+                }}
+                className='cursor-pointer'
+              />
             </PaginationItem>
+            {pageGroup.map((pageNum) => (
+              <PaginationItem key={pageNum}>
+                <PaginationLink
+                  onClick={() => {
+                    setPage(pageNum)
+                  }}
+                  className={cn(
+                    'cursor-pointer',
+                    {
+                      'bg-blue-500 text-white hover:bg-blue-500 hover:text-white':
+                        pageNum === page,
+                    },
+                    { 'pointer-events-none': pageNum > totalPages }
+                  )}
+                >
+                  {pageNum}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
             <PaginationItem>
-              <PaginationLink href='#'>1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href='#'>2</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href='#'>3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href='#'>4</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href='#'>5</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href='#' />
+              <PaginationNext
+                onClick={() => {
+                  if (totalPages > pageGroup[pageGroup.length - 1]) {
+                    setPageGroup((prev) => prev.map((i) => i + 5))
+                    setPage((prev) => (Math.ceil(prev / 5) + 1) * 5 - 4)
+                  }
+                }}
+                className='cursor-pointer'
+              />
             </PaginationItem>
           </PaginationContent>
         </Pagination>
