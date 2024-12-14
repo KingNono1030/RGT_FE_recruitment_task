@@ -3,8 +3,14 @@ import { CreateBookRequest, UpdateBookRequest } from '@/types/Book.types'
 
 const BOOK_END_POINT = '/api/books'
 
-export const getBooks = async () => {
-  const response = await api.get(BOOK_END_POINT)
+export const getBooks = async ({
+  page = 1,
+  limit = 10,
+  sort = 'desc',
+  search = '',
+}) => {
+  const endpoint = `?page=${page}&limit=${limit}&sort=${sort}&search=${search}`
+  const response = await api.get(`${BOOK_END_POINT}${endpoint}`)
   return response.data
 }
 

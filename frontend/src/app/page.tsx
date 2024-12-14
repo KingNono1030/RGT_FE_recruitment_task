@@ -5,8 +5,13 @@ import type { BookListItem } from '@/types/Book.types'
 import Link from 'next/link'
 
 export default async function HomePage() {
-  const data = await getBooks()
-  const books: BookListItem[] = data
+  const data = await getBooks({
+    page: 1,
+    limit: 6,
+    sort: 'desc',
+    search: '',
+  })
+  const books: BookListItem[] = data.books
 
   return (
     <>
