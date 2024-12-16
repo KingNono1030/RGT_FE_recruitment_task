@@ -8,7 +8,7 @@ interface BookDetailPageProps {
 }
 
 export default async function EditBookPage({ params }: BookDetailPageProps) {
-  const { id } = await params
+  const { id } = params
   const data = await getBookById(id)
   const book: BookListItem = data
 

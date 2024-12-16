@@ -18,7 +18,7 @@ export const DeleteBookButton = ({ id }: { id: string }) => {
   const router = useRouter()
   const onDelete = async () => {
     try {
-      const data = await deleteBook(id)
+      await deleteBook(id)
       router.push('/')
     } catch (error) {
       console.error(error)
