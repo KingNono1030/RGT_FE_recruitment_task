@@ -32,7 +32,13 @@ router.get('/', async (req: Request, res: Response) => {
 
     const searchQuery =
       decodedSearch && decodedSearch !== ''
-        ? { $text: { $search: decodedSearch } }
+        ? {
+            $or: [
+              { title: { $regex: decodedSearch, $options: 'i' } },
+              { author: { $regex: decodedSearch, $options: 'i' } },
+              { genre: { $regex: decodedSearch, $options: 'i' } },
+            ],
+          }
         : {}
 
     const books = await Book.find(searchQuery)
