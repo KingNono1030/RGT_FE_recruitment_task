@@ -26,7 +26,7 @@ import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
 
 const PAGES_BY_GROUP = 5
-const LIMIT_BY_PAGE = 6
+const LIMIT_BY_PAGE = 10
 
 export function BookList({ books: initialBooks }: { books: BookListItem[] }) {
   const [books, setBooks] = useState<BookListItem[]>(initialBooks)
