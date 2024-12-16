@@ -10,11 +10,11 @@ const compat = new FlatCompat({
 })
 
 export default [
-  ...compat.extends([
+  ...compat.extends(
     'eslint:recommended', // 공통 권장 규칙
     'plugin:@typescript-eslint/recommended', // 타입스크립트 권장 규칙
-    'prettier', // Prettier와 통합
-  ]),
+    'prettier' // Prettier와 통합
+  ),
   {
     rules: {
       'no-console': 'warn',
